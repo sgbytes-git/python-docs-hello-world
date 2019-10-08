@@ -1,0 +1,22 @@
+trigger:
+- master
+
+pool:
+  vmImage: 'Ubuntu-16.04'
+
+variables:
+  imageName: 'python-hello-docker' 
+  dockerfilePath: Dockerfile
+  dockerRegistryServiceConnection: sgbytesAzureConatinerRegistry
+  tag: 1.0
+
+steps:
+    - task: Docker@2
+      displayName: Build and push an image to container registry
+      inputs:
+        command: buildAndPush
+        repository: $(imageName)
+        dockerfile: $(dockerfilePath)
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
